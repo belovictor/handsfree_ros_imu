@@ -5,6 +5,7 @@
 ROS包支持的环境版本：
 * ubuntu 16.04, ROS kinetic
 * ubuntu 18.04, ROS Melodic
+* ubuntu 20.04, ROS Noetic
 
 如果使用其它ROS版本，请用户自己探索安装相关环境。
 
@@ -22,7 +23,13 @@ ROS包支持的环境版本：
     如果你使用的是 ubuntu 18.04, ROS Melodic:
 
     ```
-    sudo apt-get install ros-Melodic-imu-tools ros-Melodic-rviz-imu-plugin
+    sudo apt-get install ros-melodic-imu-tools ros-melodic-rviz-imu-plugin
+    ```
+
+    如果你使用的是 ubuntu 20.04, ROS Noetic:
+
+    ```
+    sudo apt-get install ros-noetic-imu-tools ros-noetic-rviz-imu-plugin
     ```
 
 2. 下载并编译 handsfree_ros_imu 驱动包，如果没有安装 git 工具，请使用 `sudo apt-get install -y git`命令，通过终端安装。

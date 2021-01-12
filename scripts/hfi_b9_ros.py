@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import math
 import serial
@@ -69,8 +69,8 @@ if __name__ == "__main__":
             hf_imu.open()
             rospy.loginfo("imu is open")
 
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
         rospy.loginfo("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
         exit()
 

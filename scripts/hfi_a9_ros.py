@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import binascii
 import math
@@ -41,13 +41,13 @@ def receive_split(receive_buffer):
 
 
 def hex_to_ieee(len, buff):
-    str = ''
+    byt=b''
     data = []
-    for i in range(len / 2 - 3, 11, -4):
+    for i in range(len - 3, 11, -4):
         for j in range(i, i - 4, -1):
-            str += buff[j]
-        data.append(struct.unpack('>f', str.decode('hex'))[0])
-        str = ''
+            byt += buff[j]
+        data.append(struct.unpack('>f', bytes.fromhex((str(byt)[2:-1])))[0])
+        byt = b''
     data.reverse()
     return data
 
@@ -66,8 +66,8 @@ if __name__ == "__main__":
             hf_imu.open()
             rospy.loginfo("imu is open")
 
-    except Exception, e:
-        print e
+    except Exception as e:
+        print (e)
         rospy.loginfo("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
         exit()
 
@@ -79,17 +79,18 @@ if __name__ == "__main__":
             count = hf_imu.inWaiting()
             if count > 24:
                 # bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 <= x < 256
-                receive_buffer = bytearray()
+                #receive_buffer = bytearray()
                 receive_buffer = binascii.b2a_hex(hf_imu.read(count))
-                receive_len = len(receive_buffer)
+                
+                receive_len = int(len(receive_buffer)/2)
                 stamp = rospy.get_rostime()
                 buff = receive_split(receive_buffer)
 
-                if buff[0]+buff[1]+buff[2] == 'aa552c':
+                if buff[0]+buff[1]+buff[2] == b'aa552c' and receive_len == 49:
                     sensor_data = hex_to_ieee(receive_len, buff)
                 rpy_degree = []
 
-                if buff[0]+buff[1]+buff[2] == 'aa5514':
+                if buff[0]+buff[1]+buff[2] == b'aa5514' and receive_len == 25:
                     rpy = hex_to_ieee(receive_len, buff)
                     rpy_degree.append(rpy[0] / 180 * math.pi)
                     rpy_degree.append(rpy[1] / -180 * math.pi)
