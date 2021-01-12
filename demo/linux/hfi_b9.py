@@ -1,10 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import math
 import serial
 import struct
 import time
-
 
 
 # 在缓冲数据中找到第一个包的起始位置
@@ -33,14 +32,14 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port='/dev/ttyUSB0', baudrate=921600, timeout=0.5)
         if hf_imu.isOpen():
-            print "imu connect success"
+            print("imu connect success")
         else:
             hf_imu.open()
-            print "imu is open"
+            print("imu is open")
 
-    except Exception, e:
-        print e
-        print "找不到 ttyUSB0,请检查 ium 是否和电脑连接"
+    except Exception as e:
+        print(e)
+        print("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
         exit()
 
     else:
@@ -110,25 +109,25 @@ if __name__ == "__main__":
                                         magnetic_field_y = Data[1]
                                         magnetic_field_z = Data[2]
 
-                                        print '加速度:'
-                                        print '\t x轴加速度：' + "%.2f g" % linear_acceleration_x
-                                        print '\t y轴加速度：' + "%.2f g" % linear_acceleration_y
-                                        print '\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n"
+                                        print('加速度:')
+                                        print('\t x轴加速度：' + "%.2f g" % linear_acceleration_x)
+                                        print('\t y轴加速度：' + "%.2f g" % linear_acceleration_y)
+                                        print('\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n")
 
-                                        print '角速度：'
-                                        print '\t x轴角速度：' + "%.2f °/s" % angular_velocity_x
-                                        print '\t y轴角速度：' + "%.2f °/s" % angular_velocity_y
-                                        print '\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n"
-
-                                        print '角度：'
-                                        print '\t x轴角度：' + "%.2f °" % angle_x
-                                        print '\t y轴角度：' + "%.2f °" % angle_y
-                                        print '\t z轴角度：' + "%.2f °" % angle_z + "\r\n"
+                                        print('角速度：')
+                                        print('\t x轴角速度：' + "%.2f °/s" % angular_velocity_x)
+                                        print('\t y轴角速度：' + "%.2f °/s" % angular_velocity_y)
+                                        print('\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n")
                                         
-                                        print '磁场：'
-                                        print '\t x轴磁场：' + "%.0f mG" % magnetic_field_x
-                                        print '\t y轴磁场：' + "%.0f mG" % magnetic_field_y
-                                        print '\t z轴磁场：' + "%.0f mG" % magnetic_field_z + "\r\n"
+                                        print('角度：')
+                                        print('\t x轴角度：' + "%.2f °" % angle_x)
+                                        print('\t y轴角度：' + "%.2f °" % angle_y)
+                                        print('\t z轴角度：' + "%.2f °" % angle_z + "\r\n")
+            
+                                        print('磁场：')
+                                        print('\t x轴磁场：' + "%.0f mG" % magnetic_field_x)
+                                        print('\t y轴磁场：' + "%.0f mG" % magnetic_field_y)
+                                        print('\t z轴磁场：' + "%.0f mG" % magnetic_field_z + "\r\n")
         
             time.sleep(0.001)
 

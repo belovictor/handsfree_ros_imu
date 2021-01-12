@@ -1,22 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import math
 import serial
 import struct
 import time
-
-
-def eul_to_qua(eular):
-    eular_div = [0, 0, 0]
-    eular_div[0], eular_div[1], eular_div[2] = eular[0] / 2.0, eular[1] / 2.0, eular[2] / 2.0
-
-    ca, cb, cc = math.cos(eular_div[0]), math.cos(eular_div[1]), math.cos(eular_div[2])
-    sa, sb, sc = math.sin(eular_div[0]), math.sin(eular_div[1]), math.sin(eular_div[2])
-
-    x = sa * cb * cc - ca * sb * sc
-    y = ca * sb * cc + sa * cb * sc
-    z = ca * cb * sc - sa * sb * cc
-    w = ca * cb * cc + sa * sb * sc
 
 
 # 在缓冲数据中找到第一个包的起始位置
@@ -45,14 +32,14 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0.5)
         if hf_imu.isOpen():
-            print "imu connect success"
+            print("imu connect success")
         else:
             hf_imu.open()
-            print "imu is open"
+            print("imu is open")
 
-    except Exception, e:
-        print e
-        print "找不到 ttyUSB0,请检查 ium 是否和电脑连接"
+    except Exception as e:
+        print(e)
+        print("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
         exit()
 
     else:
@@ -116,19 +103,19 @@ if __name__ == "__main__":
                                         angle_y = Data[1] / 32768.0 * 180
                                         angle_z = Data[2] / 32768.0 * 180
 
-                                        print '加速度:'
-                                        print '\t x轴加速度：' + "%.2f g" % linear_acceleration_x
-                                        print '\t y轴加速度：' + "%.2f g" % linear_acceleration_y
-                                        print '\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n"
+                                        print('加速度:')
+                                        print('\t x轴加速度：' + "%.2f g" % linear_acceleration_x)
+                                        print('\t y轴加速度：' + "%.2f g" % linear_acceleration_y)
+                                        print('\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n")
 
-                                        print '角速度：'
-                                        print '\t x轴角速度：' + "%.2f °/s" % angular_velocity_x
-                                        print '\t y轴角速度：' + "%.2f °/s" % angular_velocity_y
-                                        print '\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n"
-
-                                        print '角度：'
-                                        print '\t x轴角度：' + "%.2f °" % angle_x
-                                        print '\t y轴角度：' + "%.2f °" % angle_y
-                                        print '\t z轴角度：' + "%.2f °" % angle_z + "\r\n"
+                                        print('角速度：')
+                                        print('\t x轴角速度：' + "%.2f °/s" % angular_velocity_x)
+                                        print('\t y轴角速度：' + "%.2f °/s" % angular_velocity_y)
+                                        print('\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n")
+                                        
+                                        print('角度：')
+                                        print('\t x轴角度：' + "%.2f °" % angle_x)
+                                        print('\t y轴角度：' + "%.2f °" % angle_y)
+                                        print('\t z轴角度：' + "%.2f °" % angle_z + "\r\n")
             time.sleep(0.001)
 
