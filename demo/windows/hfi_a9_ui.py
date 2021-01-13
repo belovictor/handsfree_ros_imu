@@ -5,7 +5,7 @@ import time
 import struct
 import serial
 import threading
-import Tkinter as tk
+import tkinter as tk
 from datetime import datetime
 
 
@@ -81,13 +81,13 @@ class DataParser:
         return buff
 
     def hex_to_ieee(self, len, buff):
-        str = ''
+        byt = b''
         data = []
-        for i in range(len / 2 - 3, 11, -4):
+        for i in range(len - 3, 11, -4):
             for j in range(i, i - 4, -1):
-                str += buff[j]
-            data.append(struct.unpack('>f', str.decode('hex'))[0])
-            str = ''
+                byt += buff[j]
+            data.append(struct.unpack('>f', bytes.fromhex((str(byt)[2:-1])))[0])
+            byt = b''
         data.reverse()
         return data
 
@@ -108,9 +108,8 @@ class DataParser:
         while self.working:
             # 显示当前收到的数据
             buff = self.receiveSplit(self.r.receiveBuffer)
-            print buff
-            if buff[0] + buff[1] + buff[2] == 'aa552c' and len(buff) == 49:
-                sensor_data = self.hex_to_ieee(len(buff) * 2, buff)
+            if buff[0] + buff[1] + buff[2] == b'aa552c' and len(buff) == 49:
+                sensor_data = self.hex_to_ieee(49, buff)
                 self.w[0] = sensor_data[0]
                 self.w[1] = sensor_data[1]
                 self.w[2] = sensor_data[2]
@@ -121,8 +120,8 @@ class DataParser:
                 self.h[1] = sensor_data[7] * 1000
                 self.h[2] = sensor_data[8] * 1000
 
-            if buff[0] + buff[1] + buff[2] == 'aa5514' and len(buff) == 25:
-                rpy = self.hex_to_ieee(len(buff) * 2, buff)
+            if buff[0] + buff[1] + buff[2] == b'aa5514' and len(buff) == 25:
+                rpy = self.hex_to_ieee(25, buff)
                 self.Angle[0] = rpy[0]
                 self.Angle[1] = - rpy[1]
                 self.Angle[2] = - rpy[2] + 180

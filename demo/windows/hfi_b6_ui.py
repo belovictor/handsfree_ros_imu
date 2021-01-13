@@ -3,7 +3,7 @@ import time
 import struct
 import serial
 import threading
-import Tkinter as tk
+import tkinter as tk
 from datetime import datetime
 
 

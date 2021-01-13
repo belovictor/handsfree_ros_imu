@@ -1,13 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import math
 import serial
 import struct
 import time
-import sys
-if sys.getdefaultencoding() != 'utf-8':
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
+
 
 # 在缓冲数据中找到第一个包的起始位置
 def find_first_package(buffer):
@@ -35,14 +32,14 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port='COM3', baudrate=921600, timeout=0.5)
         if hf_imu.isOpen():
-            print u"imu connect success"
+            print("imu connect success")
         else:
             hf_imu.open()
-            print u"imu is open"
+            print("imu is open")
 
-    except Exception, e:
-        print e
-        print u"找不到 ttyUSB0,请检查 ium 是否和电脑连接"
+    except Exception as e:
+        print(e)
+        print("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
         exit()
 
     else:
@@ -106,19 +103,19 @@ if __name__ == "__main__":
                                         angle_y = Data[1] / 32768.0 * 180
                                         angle_z = Data[2] / 32768.0 * 180
 
-                                        print u'加速度:'
-                                        print u'\t x轴加速度：' + "%.2f g" % linear_acceleration_x
-                                        print u'\t y轴加速度：' + "%.2f g" % linear_acceleration_y
-                                        print u'\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n"
+                                        print('加速度:')
+                                        print('\t x轴加速度：' + "%.2f g" % linear_acceleration_x)
+                                        print('\t y轴加速度：' + "%.2f g" % linear_acceleration_y)
+                                        print('\t z轴加速度：' + "%.2f g" % linear_acceleration_z + "\r\n")
 
-                                        print u'角速度：'
-                                        print u'\t x轴角速度：' + "%.2f °/s" % angular_velocity_x
-                                        print u'\t y轴角速度：' + "%.2f °/s" % angular_velocity_y
-                                        print u'\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n"
-
-                                        print u'角度：'
-                                        print u'\t x轴角度：' + "%.2f °" % angle_x
-                                        print u'\t y轴角度：' + "%.2f °" % angle_y
-                                        print u'\t z轴角度：' + "%.2f °" % angle_z + "\r\n"
+                                        print('角速度：')
+                                        print('\t x轴角速度：' + "%.2f °/s" % angular_velocity_x)
+                                        print('\t y轴角速度：' + "%.2f °/s" % angular_velocity_y)
+                                        print('\t z轴角速度：' + "%.2f °/s" % angular_velocity_z + "\r\n")
+                                        
+                                        print('角度：')
+                                        print('\t x轴角度：' + "%.2f °" % angle_x)
+                                        print('\t y轴角度：' + "%.2f °" % angle_y)
+                                        print('\t z轴角度：' + "%.2f °" % angle_z + "\r\n")
             time.sleep(0.001)
 
