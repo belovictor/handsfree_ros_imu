@@ -142,6 +142,11 @@ ROS包支持的环境版本：
 
 6. 进入 `/handsfree_ros_imu/demo/windows`下，修改对应　python　驱动程序文件的　COM3　为你电脑上对应的　COM　口，然后双击对应的　python　程序文件来运行脚本或者用命令行运行。
 
+## 其他
+通过 python3 ，或 ROS Noetic 使用请将 master 分支切换到 noetic 分支，下载使用
+
+![](./img/doc/git_branch.jpg)    
+
 ## 主要文件介绍
 
 ### 关于 launch 文件夹中 .launch 文件描述
