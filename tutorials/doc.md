@@ -1,99 +1,19 @@
 # HandsFree ROS IMU 用户手册
 
-## 在 ROS 环境下使用 IMU
+## 下载对应版本
 
-ROS包支持的环境版本：
-* ubuntu 16.04, ROS kinetic
-* ubuntu 18.04, ROS Melodic
-* ubuntu 20.04, ROS Noetic
+| python版本 | 下载连接 |
+|:-------:|:-------:|
+| python2 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/V1.0-Python2?format=zip) |
+| python3 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/V1.0-Python3?format=zip) |
 
-如果使用其它ROS版本，请用户自己探索安装相关环境。
 
-### 安装 ROS 依赖包
-
-1. 安装 ros imu　功能依赖包
-
-    如果你使用的是 ubuntu 16.04, ROS kinetic:
-
-    ```
-    sudo apt-get install ros-kinetic-imu-tools ros-kinetic-rviz-imu-plugin
-    sudo apt-get install python-visual
-    ```
-
-    如果你使用的是 ubuntu 18.04, ROS Melodic:
-
-    ```
-    sudo apt-get install ros-melodic-imu-tools ros-melodic-rviz-imu-plugin
-    ```
-
-    如果你使用的是 ubuntu 20.04, ROS Noetic:
-
-    ```
-    sudo apt-get install ros-noetic-imu-tools ros-noetic-rviz-imu-plugin
-    ```
-
-2. 下载并编译 handsfree_ros_imu 驱动包，如果没有安装 git 工具，请使用 `sudo apt-get install -y git`命令，通过终端安装。
-
-    ```
-    mkdir -p  ~/handsfree/handsfree_ros_ws/src/
-    cd ~/handsfree/handsfree_ros_ws/src/
-    git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
-    cd ~/handsfree/handsfree_ros_ws/
-    catkin_make
-    cd ~/handsfree/handsfree_ros_ws/src/handsfree_ros_imu/scripts/
-    sudo chmod 777 *.py
-    ```
-
-3. 将 setup.sh 写入 .bashrc 文件中 
-
-    ```
-    echo "source ~/handsfree/handsfree_ros_ws/devel/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
-    ```
-        
-4. 插上 USB 设备（连接 IMU 的 USB，检查电脑能否识别到 ttyUSB0，检测到 ttyUSB0 后，给 ttyUSB0 赋权限
-
-    ```
-    ls /dev/ttyUSB0
-    sudo chmod 777 /dev/ttyUSB0
-    ```
-
-### 使用各功能包
-
-陀螺仪和加速计的发布话题：/handsfree/imu
-
-磁力计的发布话题：/handsfree/mag
-
-1. 通过 USB 连接线将 IMU 和电脑连接。
-
-2. 运行 ROS 驱动可视化程序，打开 rviz 。
-
-    ```
-    roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9（改成你的imu的型号，可选项：a9，b9，b6）
-    ```
-    ![通过 rviz 来查看 ros imu](./img/doc/1.jpg)
-
-3. 运行脚本获取 IMU 欧拉角格式数据：Roll（翻滚），Pitch（俯仰），Yaw（偏航）
-
-    ```
-    rosrun rosrun handsfree_ros_imu get_imu_rpy.py
-    ```
-    ![通过 python 脚本来打印 ros imu 的 Roll（翻滚），Pitch（俯仰），Yaw（偏航）角度](./img/doc/3.jpg)
-
-4. 打开通过 python 脚本编写的 3D 可视化（此功能只适用于 ubuntu 16.04　ROS kinetic 环境）
-    
-    ```
-    roslaunch handsfree_ros_imu display_and_imu.launch imu_type:=a9（改成你的imu的型号，可选项：a9，b9，b6）
-    ```
-    ![通过 python 3D 脚本来查看 ros imu](./img/doc/2.jpg)
-
-    此时，转动手中的 IMU，就会看到 rviz 上面的模型的变化了。
 
 ## 在Linux环境下使用IMU （无需安装ROS）
 
 以 ubuntu16.04 为例
 
-1. 下载驱动软件包压缩包，[驱动包下载地址](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/dev.zip)，并解压到用户目录。
+1. 下载驱动软件包压缩包，并解压到用户目录。
 
     ![](./img/doc/git_zpi.jpg)
 
@@ -132,7 +52,7 @@ ROS包支持的环境版本：
 
 3. 下载并安装 cp2102 串口驱动，下载地址: [cp2102驱动](https://handsfree-mv.oss-cn-shenzhen.aliyuncs.com/handsfree_robot/tools/windows%E4%B8%B2%E5%8F%A3%E9%A9%B1%E5%8A%A8/CP2102.zip)
 
-4. 下载驱动软件包压缩包，[驱动包下载地址](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/dev.zip)，并解压到桌面。
+4. 下载驱动软件包压缩包，并解压到桌面。
 
     ![](./img/doc/git_zpi.jpg)    
 
@@ -146,6 +66,101 @@ ROS包支持的环境版本：
 通过 python3 ，或 ROS Noetic 使用请将 master 分支切换到 noetic 分支，下载使用
 
 ![](./img/doc/git_branch.jpg)    
+
+## 在 ROS 环境下使用 IMU
+
+ROS包支持的环境版本：
+* ubuntu 16.04, ROS kinetic, python2
+* ubuntu 18.04, ROS Melodic, python2
+* ubuntu 20.04, ROS Noetic, python3
+
+如果使用其它ROS版本，请用户自己探索安装相关环境。
+
+### 安装 ROS 依赖包
+以下是通过命令行安装的方式, 以 ubuntu16.04 为例, git clone 的分支是 master 分支, 只适用于 python2。如果你要使用 python3 来执行脚本, 请切换到 noetic 分支。
+
+你也可以通过下载驱动软件包压缩包的方式，请参考**下载对应版本**
+
+1. 安装 ros imu　功能依赖包,(请选择你系统对应的版本)
+
+    如果你使用的是 ubuntu 16.04, ROS kinetic, python2 :
+
+    ```
+    sudo apt-get install ros-kinetic-imu-tools ros-kinetic-rviz-imu-plugin
+    sudo apt-get install python-visual
+    ```
+
+    如果你使用的是 ubuntu 18.04, ROS Melodic, python2 :
+
+    ```
+    sudo apt-get install ros-melodic-imu-tools ros-melodic-rviz-imu-plugin
+    ```
+
+    如果你使用的是 ubuntu 20.04, ROS Noetic, python3 :
+
+    ```
+    sudo apt-get install ros-noetic-imu-tools ros-noetic-rviz-imu-plugin
+    pip3 install pyserial
+    ```
+
+2. 下载并编译 handsfree_ros_imu 驱动包，如果没有安装 git 工具，请使用 `sudo apt-get install -y git`命令，通过终端安装。
+
+    ```
+    mkdir -p  ~/handsfree/handsfree_ros_ws/src/
+    cd ~/handsfree/handsfree_ros_ws/src/
+    git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
+    cd ~/handsfree/handsfree_ros_ws/
+    catkin_make
+    cd ~/handsfree/handsfree_ros_ws/src/handsfree_ros_imu/scripts/
+    sudo chmod 777 *.py
+    ```
+
+3. 将 setup.sh 写入 .bashrc 文件中 
+
+    ```
+    echo "source ~/handsfree/handsfree_ros_ws/devel/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
+    ```
+        
+4. 插上 USB 设备（连接 IMU 的 USB，检查电脑能否识别到 ttyUSB0，检测到 ttyUSB0 后，给 ttyUSB0 赋权限
+
+    ```
+    ls /dev/ttyUSB0
+    sudo chmod 777 /dev/ttyUSB0
+    ```
+
+### 功能包的使用
+
+陀螺仪和加速计的发布话题：/handsfree/imu
+
+磁力计的发布话题：/handsfree/mag
+
+1. 通过 USB 连接线将 IMU 和电脑连接。
+
+2. 运行 ROS 驱动可视化程序，打开 rviz 。
+
+    ```
+    roslaunch handsfree_ros_imu rviz_and_imu.launch imu_type:=a9（改成你的imu的型号，可选项：a9，b9，b6）
+    ```
+    ![通过 rviz 来查看 ros imu](./img/doc/1.jpg)
+
+3. 运行脚本获取 IMU 欧拉角格式数据：Roll（翻滚），Pitch（俯仰），Yaw（偏航）
+
+    ```
+    rosrun handsfree_ros_imu get_imu_rpy.py
+    ```
+    ![通过 python 脚本来打印 ros imu 的 Roll（翻滚），Pitch（俯仰），Yaw（偏航）角度](./img/doc/3.jpg)
+
+4. 打开通过 python 脚本编写的 3D 可视化（此功能只适用于 ubuntu 16.04　ROS kinetic 环境）
+    
+    ```
+    roslaunch handsfree_ros_imu display_and_imu.launch imu_type:=a9（改成你的imu的型号，可选项：a9，b9，b6）
+    ```
+    ![通过 python 3D 脚本来查看 ros imu](./img/doc/2.jpg)
+
+    此时，转动手中的 IMU，就会看到 rviz 上面的模型的变化了。
+
+
 
 ## 主要文件介绍
 
