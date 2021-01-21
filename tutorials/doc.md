@@ -30,7 +30,7 @@
     python hfi_a9.py
     ```
 
-## 在Windows环境下使用IMU
+## 在Windows环境下使用IMU （无需安装ROS）
 
 以 win7 为例
 
@@ -61,11 +61,6 @@
     ![](./img/doc/com3.jpg)    
 
 6. 进入 `/handsfree_ros_imu/demo/windows`下，修改对应　python　驱动程序文件的　COM3　为你电脑上对应的　COM　口，然后双击对应的　python　程序文件来运行脚本或者用命令行运行。
-
-## 其他
-通过 python3 ，或 ROS Noetic 使用请将 master 分支切换到 noetic 分支，下载使用
-
-![](./img/doc/git_branch.jpg)    
 
 ## 在 ROS 环境下使用 IMU
 
