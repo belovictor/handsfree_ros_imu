@@ -59,12 +59,12 @@ def find_ttyUSB():
     port_list = []
     for ser in serial.tools.list_ports.comports():
         if str(ser.name).find("USB") == 3:
-            print "\033[32m找到了:" + str(ser.name) + " 设备\033[0m"
+            print("\033[32m找到了:" + str(ser.name) + " 设备\033[0m")
             port_list.append(str(ser.name))
         else:
             count += 1
             if count == len(list(serial.tools.list_ports.comports())):
-                print "\033[31m没有找到相关的 ttyUSB* 设备\033[0m"
+                print("\033[31m没有找到相关的 ttyUSB* 设备\033[0m")
                 exit(0)
     return port_list
 
@@ -81,8 +81,8 @@ if __name__ == "__main__":
         else:
             hf_imu.open()
             rospy.loginfo("\033[32m打开串口成功...\033[0m")
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
         rospy.loginfo("\033[31m串口错误，其他因素\033[0m")
         exit(0)
     else:
@@ -98,9 +98,9 @@ if __name__ == "__main__":
                 exit(0)
             try:
                 count = hf_imu.inWaiting()
-            except Exception, e:
-                print e
-                print ("\033[31mimu 失联\033[0m")
+            except Exception as e:
+                print(e)
+                print("\033[31mimu 失联\033[0m")
                 exit(0)
             else:
                 if count > 24:
