@@ -6,6 +6,7 @@ import serial
 import struct
 import time
 import rospy
+import serial.tools.list_ports
 from geometry_msgs.msg import Quaternion
 from sensor_msgs.msg import Imu
 from sensor_msgs.msg import MagneticField
@@ -52,79 +53,102 @@ def hex_to_ieee(len, buff):
     return data
 
 
-if __name__ == "__main__":
-    rospy.init_node("imu")
+# 查找 ttyUSB* 设备
+def find_ttyUSB():
+    count = 0
+    port_list = []
+    for ser in serial.tools.list_ports.comports():
+        if str(ser.name).find("USB") == 3:
+            print "\033[32m找到了:" + str(ser.name) + " 设备\033[0m"
+            port_list.append(str(ser.name))
+        else:
+            count += 1
+            if count == len(list(serial.tools.list_ports.comports())):
+                print "\033[31m没有找到相关的 ttyUSB* 设备\033[0m"
+                exit(0)
+    return port_list
 
+
+if __name__ == "__main__":
+    port_list = find_ttyUSB()
+    rospy.init_node("imu")
     port = rospy.get_param("~port", "/dev/ttyUSB0")
     baudrate = rospy.get_param("~baudrate", 921600)
-
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            rospy.loginfo("imu connect success")
+            rospy.loginfo("\033[32m串口打开成功...\033[0m")
         else:
             hf_imu.open()
-            rospy.loginfo("imu is open")
-
+            rospy.loginfo("\033[32m打开串口成功...\033[0m")
     except Exception, e:
         print e
-        rospy.loginfo("找不到 ttyUSB0,请检查 ium 是否和电脑连接")
-        exit()
-
+        rospy.loginfo("\033[31m串口错误，其他因素\033[0m")
+        exit(0)
     else:
         imu_pub = rospy.Publisher("handsfree/imu", Imu, queue_size=10)
         mag_pub = rospy.Publisher("handsfree/mag", MagneticField, queue_size=10)
         sensor_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        data_timeout = 0
         while not rospy.is_shutdown():
-            count = hf_imu.inWaiting()
-            if count > 24:
-                # bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 <= x < 256
-                receive_buffer = bytearray()
-                receive_buffer = binascii.b2a_hex(hf_imu.read(count))
-                receive_len = len(receive_buffer)
-                stamp = rospy.get_rostime()
-                buff = receive_split(receive_buffer)
+            if data_timeout < 1000:
+                data_timeout += 1
+            else:
+                print("\033[31m读取不到 imu 数据，当前 ttyUSB0 设备不是 imu\033[0m")
+                exit(0)
+            try:
+                count = hf_imu.inWaiting()
+            except Exception, e:
+                print e
+                print ("\033[31mimu 失联\033[0m")
+                exit(0)
+            else:
+                if count > 24:
+                    # bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 <= x < 256
+                    receive_buffer = bytearray()
+                    receive_buffer = binascii.b2a_hex(hf_imu.read(count))
+                    receive_len = len(receive_buffer)
+                    stamp = rospy.get_rostime()
+                    buff = receive_split(receive_buffer)
+                    rpy_degree = []
+                    if buff[0] + buff[1] + buff[2] == 'aa552c':
+                        sensor_data = hex_to_ieee(receive_len, buff)
+                    if buff[0] + buff[1] + buff[2] == 'aa5514':
+                        data_timeout = 0
+                        rpy = hex_to_ieee(receive_len, buff)
+                        rpy_degree.append(rpy[0] / 180 * math.pi)
+                        rpy_degree.append(rpy[1] / -180 * math.pi)
+                        rpy_degree.append(rpy[2] / -180 * math.pi)
 
-                if buff[0]+buff[1]+buff[2] == 'aa552c':
-                    sensor_data = hex_to_ieee(receive_len, buff)
-                rpy_degree = []
+                        imu_msg = Imu()
+                        imu_msg.header.stamp = stamp
+                        imu_msg.header.frame_id = "base_link"
 
-                if buff[0]+buff[1]+buff[2] == 'aa5514':
-                    rpy = hex_to_ieee(receive_len, buff)
-                    rpy_degree.append(rpy[0] / 180 * math.pi)
-                    rpy_degree.append(rpy[1] / -180 * math.pi)
-                    rpy_degree.append(rpy[2] / -180 * math.pi)
+                        # 调用 eul_to_qua , 将欧拉角转四元数
+                        imu_msg.orientation = eul_to_qua(rpy_degree)
+                        imu_msg.orientation_covariance = cov_orientation
 
-                    imu_msg = Imu()
+                        imu_msg.angular_velocity.x = sensor_data[0]
+                        imu_msg.angular_velocity.y = sensor_data[1]
+                        imu_msg.angular_velocity.z = sensor_data[2]
+                        imu_msg.angular_velocity_covariance = cov_angular_velocity
 
-                    imu_msg.header.stamp = stamp
-                    imu_msg.header.frame_id = "base_link"
+                        imu_msg.linear_acceleration.x = sensor_data[3] * -9.8
+                        imu_msg.linear_acceleration.y = sensor_data[4] * -9.8
+                        imu_msg.linear_acceleration.z = sensor_data[5] * -9.8
+                        imu_msg.linear_acceleration_covariance = cov_linear_acceleration
 
-                    # 调用 eul_to_qua , 将欧拉角转四元数
-                    imu_msg.orientation = eul_to_qua(rpy_degree)
-                    imu_msg.orientation_covariance = cov_orientation
+                        imu_pub.publish(imu_msg)
 
-                    imu_msg.angular_velocity.x = sensor_data[0]
-                    imu_msg.angular_velocity.y = sensor_data[1]
-                    imu_msg.angular_velocity.z = sensor_data[2]
-                    imu_msg.angular_velocity_covariance = cov_angular_velocity
+                        mag_msg = MagneticField()
+                        mag_msg.header.stamp = stamp
+                        mag_msg.header.frame_id = "base_link"
+                        mag_msg.magnetic_field.x = sensor_data[6]
+                        mag_msg.magnetic_field.y = sensor_data[7]
+                        mag_msg.magnetic_field.z = sensor_data[8]
+                        mag_msg.magnetic_field_covariance = cov_magnetic_field
 
-                    imu_msg.linear_acceleration.x = sensor_data[3] * -9.8
-                    imu_msg.linear_acceleration.y = sensor_data[4] * -9.8
-                    imu_msg.linear_acceleration.z = sensor_data[5] * -9.8
-                    imu_msg.linear_acceleration_covariance = cov_linear_acceleration
+                        mag_pub.publish(mag_msg)
 
-                    imu_pub.publish(imu_msg)
-
-                    mag_msg = MagneticField()
-                    mag_msg.header.stamp=stamp
-                    mag_msg.header.frame_id="base_link"
-                    mag_msg.magnetic_field.x = sensor_data[6]
-                    mag_msg.magnetic_field.y = sensor_data[7]
-                    mag_msg.magnetic_field.z = sensor_data[8]
-                    mag_msg.magnetic_field_covariance = cov_magnetic_field
-
-                    mag_pub.publish(mag_msg)
-
-            time.sleep(0.001)
+                time.sleep(0.001)
 
