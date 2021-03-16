@@ -4,8 +4,8 @@
 
 | python版本 | 下载连接 |
 |:-------:|:-------:|
-| python2 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/V1.0-Python2?format=zip) |
-| python3 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/V1.0-Python3?format=zip) |
+| python2 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/master.zip) |
+| python3 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/noetic.zip) |
 
 
 
