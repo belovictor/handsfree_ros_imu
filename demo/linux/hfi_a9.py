@@ -5,7 +5,7 @@ import math
 import serial
 import struct
 import time
-
+import serial.tools.list_ports
 
 def receive_split(receive_buffer):
     buff = []
@@ -47,13 +47,13 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port='/dev/ttyUSB0', baudrate=921600, timeout=0.5)
         if hf_imu.isOpen():
-            print("串口打开成功...")
+            print("\033[32m串口打开成功...\033[0m")
         else:
             hf_imu.open()
-            print("打开串口成功...")
+            print("\033[32m打开串口成功...\033[0m")
     except Exception as e:
         print(e)
-        print("串口错误，其他因素")
+        rospy.loginfo("\033[31m串口错误，其他因素\033[0m")
         exit(0)
     else:
         sensor_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -62,13 +62,13 @@ if __name__ == "__main__":
             if data_timeout < 1000:
                 data_timeout += 1
             else:
-                print("读取不到 imu 数据，当前 COM3 设备不是 imu")
+                print("\033[31m读取不到 imu 数据，当前 ttyUSB0 设备不是 imu\033[0m")
                 exit(0)
             try:
                 count = hf_imu.inWaiting()
             except Exception as e:
                 print(e)
-                print("imu 失联")
+                print("\033[31mimu 失联\033[0m")
                 exit(0)
             else:
                 if count > 24:
@@ -77,22 +77,21 @@ if __name__ == "__main__":
                     receive_buffer = binascii.b2a_hex(hf_imu.read(count))
                     receive_len = len(receive_buffer)
                     buff = receive_split(receive_buffer)
-
-                    if buff[0]+buff[1]+buff[2] == 'aa552c':
-                        sensor_data = hex_to_ieee(receive_len, buff)
-
-                    if buff[0]+buff[1]+buff[2] == 'aa5514':
-                        rpy = hex_to_ieee(receive_len, buff)
+                    if buff[0] + buff[1] + buff[2] == 'aa552c' and len(buff) == 49:
+                        sensor_data = hex_to_ieee(len(buff) * 2, buff)
+                    if buff[0] + buff[1] + buff[2] == 'aa5514' and len(buff) == 25:
+                        data_timeout = 0
+                        rpy = hex_to_ieee(len(buff) * 2, buff)
 
                         print('加速度:')
-                        print('\t x轴加速度：' + "%.2f g" % sensor_data[3])
-                        print('\t y轴加速度：' + "%.2f g" % sensor_data[4])
-                        print('\t z轴加速度：' + "%.2f g" % sensor_data[5] + "\r\n")
+                        print('\t x轴加速度：' + "%.2f g" % (sensor_data[3] * -9.8))
+                        print('\t y轴加速度：' + "%.2f g" % (sensor_data[4] * -9.8))
+                        print('\t z轴加速度：' + "%.2f g" % (sensor_data[5] * -9.8) + "\r\n")
 
                         print('角速度：')
-                        print('\t x轴角速度：' + "%.2f rad/s" % (sensor_data[0] * -9.8))
-                        print('\t y轴角速度：' + "%.2f rad/s" % (sensor_data[1] * -9.8))
-                        print('\t z轴角速度：' + "%.2f rad/s" % (sensor_data[2] * -9.8) + "\r\n")
+                        print('\t x轴角速度：' + "%.2f rad/s" % sensor_data[0])
+                        print('\t y轴角速度：' + "%.2f rad/s" % sensor_data[1])
+                        print('\t z轴角速度：' + "%.2f rad/s" % sensor_data[2] + "\r\n")
 
                         print('角度：')
                         print('\t x轴角度：' + "%.2f °" % rpy[0])
@@ -103,7 +102,5 @@ if __name__ == "__main__":
                         print('\t x轴磁场：' + "%.0f mG" % (sensor_data[6] * 1000))
                         print('\t y轴磁场：' + "%.0f mG" % (sensor_data[7] * 1000))
                         print('\t z轴磁场：' + "%.0f mG" % (sensor_data[8] * 1000) + "\r\n")
-
-
-                time.sleep(0.001)
+                time.sleep(0.002)
 

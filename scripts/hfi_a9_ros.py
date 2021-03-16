@@ -111,11 +111,11 @@ if __name__ == "__main__":
                     stamp = rospy.get_rostime()
                     buff = receive_split(receive_buffer)
                     rpy_degree = []
-                    if buff[0] + buff[1] + buff[2] == 'aa552c':
-                        sensor_data = hex_to_ieee(receive_len, buff)
-                    if buff[0] + buff[1] + buff[2] == 'aa5514':
+                    if buff[0] + buff[1] + buff[2] == 'aa552c' and len(buff) == 49:
+                        sensor_data = hex_to_ieee(len(buff) * 2, buff)
+                    if buff[0] + buff[1] + buff[2] == 'aa5514' and len(buff) == 25:
                         data_timeout = 0
-                        rpy = hex_to_ieee(receive_len, buff)
+                        rpy = hex_to_ieee(len(buff) * 2, buff)
                         rpy_degree.append(rpy[0] / 180 * math.pi)
                         rpy_degree.append(rpy[1] / -180 * math.pi)
                         rpy_degree.append(rpy[2] / -180 * math.pi)
