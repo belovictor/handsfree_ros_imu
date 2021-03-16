@@ -98,12 +98,16 @@ ROS包支持的环境版本：
     pip3 install pyserial
     ```
 
-2. 下载并编译 handsfree_ros_imu 驱动包，如果没有安装 git 工具，请使用 `sudo apt-get install -y git`命令，通过终端安装。
+2. 以官方安装方式为例，创建对应目录
 
     ```
     mkdir -p  ~/handsfree/handsfree_ros_ws/src/
     cd ~/handsfree/handsfree_ros_ws/src/
-    git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
+    ```
+    
+    将之前下载好的压缩包提取到 src 目录下，正常情况下提取出来的压缩包文件名是 handsfree_ros_imu，如果不是请修改成 handsfree_ros_imu
+    
+    ```
     cd ~/handsfree/handsfree_ros_ws/
     catkin_make
     cd ~/handsfree/handsfree_ros_ws/src/handsfree_ros_imu/scripts/
