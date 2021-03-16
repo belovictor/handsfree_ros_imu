@@ -67,12 +67,13 @@ if __name__ == "__main__":
                     if buff[0] + buff[1] + buff[2] == 'aa552c' and len(buff) == 49:
                         sensor_data = hex_to_ieee(len(buff) * 2, buff)
                     if buff[0] + buff[1] + buff[2] == 'aa5514' and len(buff) == 25:
+                        data_timeout = 0
                         rpy = hex_to_ieee(len(buff) * 2, buff)
 
                         print(u'加速度:')
                         print(u'\t x轴加速度：' + "%.2f g" % (sensor_data[3] * -9.8))
                         print(u'\t y轴加速度：' + "%.2f g" % (sensor_data[4] * -9.8))
-                        print(u'\t z轴加速度：' + "%.2f g" % (sensor_data[5] * -9.8) + "\r\n"))
+                        print(u'\t z轴加速度：' + "%.2f g" % (sensor_data[5] * -9.8) + "\r\n")
 
                         print(u'角速度：')
                         print(u'\t x轴角速度：' + "%.2f rad/s" % sensor_data[0])

@@ -150,7 +150,7 @@ class DataParser:
 
                 # text += '温   度：' + "%.2f ℃" % self.Temperature + "\r\n"
                 self.u.showText(text)
-            tiem.sleep(0.002)
+            time.sleep(0.002)
             # 输出解析得到的内容
             output()
 
