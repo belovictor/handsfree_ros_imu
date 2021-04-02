@@ -64,6 +64,10 @@
 
 ## 在 ROS 环境下使用 IMU
 
+rostopic：
+* 陀螺仪和加速计发布的话题：/handsfree/imu
+* 磁力计发布的话题：/handsfree/mag
+
 ROS包支持的环境版本：
 * ubuntu 16.04, ROS kinetic, python2
 * ubuntu 18.04, ROS Melodic, python2
@@ -130,9 +134,9 @@ ROS包支持的环境版本：
 
 ### 功能包的使用
 
-陀螺仪和加速计的发布话题：/handsfree/imu
+陀螺仪和加速计发布的话题：/handsfree/imu
 
-磁力计的发布话题：/handsfree/mag
+磁力计发布的话题：/handsfree/mag
 
 1. 通过 USB 连接线将 IMU 和电脑连接。
 
