@@ -23,7 +23,7 @@ class Tool:
         return self.warn[0] + '[warn]' + str_ + self.warn[1]
 
     def strHint(self, str_):
-        return self.warn[0] + '[hint]' + str_ + self.warn[1]
+        return self.hint[0] + '[hint]' + str_ + self.hint[1]
 
 
 t = Tool()

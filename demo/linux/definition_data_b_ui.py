@@ -55,9 +55,9 @@ class MyUI:
                     text += 'y轴角速度：' + "%.2f rad/s" % imu.angular_velocity[1] + "\r\n"
                     text += 'z轴角速度：' + "%.2f rad/s" % imu.angular_velocity[2] + "\r\n\r\n"
 
-                    text += 'x轴角度：  ' + "%.2f rad" % imu.euler_angle[0] + "\r\n"
-                    text += 'y轴角度：  ' + "%.2f rad" % imu.euler_angle[1] + "\r\n"
-                    text += 'z轴角度：  ' + "%.2f rad" % imu.euler_angle[2] + "\r\n\r\n"
+                    text += 'x轴角度：  ' + "%f rad" % imu.euler_angle[0] + "\r\n"
+                    text += 'y轴角度：  ' + "%f rad" % imu.euler_angle[1] + "\r\n"
+                    text += 'z轴角度：  ' + "%f rad" % imu.euler_angle[2] + "\r\n\r\n"
 
                     text += 'x轴磁场： ' + "%.0f mG" % imu.magnetometer[0] + "\r\n"
                     text += 'y轴磁场： ' + "%.0f mG" % imu.magnetometer[1] + "\r\n"

@@ -28,9 +28,9 @@ def main(classImu,port):
     z轴：%.2f
 
 欧拉角(°)：
-    x轴：%.2f
-    y轴：%.2f
-    z轴：%.2f
+    x轴：%f
+    y轴：%f
+    z轴：%f
 
 磁场：
     x轴：%.2f
