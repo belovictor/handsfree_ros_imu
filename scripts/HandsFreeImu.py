@@ -140,7 +140,7 @@ def hex_to_ieee(raw_data):
             raw_data[i + 3] | 0xff00)[4:6]
         # 转ieee
         if platform.python_version()[0] == '3':
-            ieee_data.append(struct.unpack('>f', bytes.fromhex(data2str)))
+            ieee_data.append(struct.unpack('>f', bytes.fromhex(data2str))[0])
         else:
             ieee_data.append(struct.unpack('>f', data2str.decode('hex'))[0])
 
