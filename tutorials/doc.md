@@ -4,7 +4,13 @@
 
 | python版本 | 下载连接 |
 |:-------:|:-------:|
+| python2 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/master.zip) |
+| python3 | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/noetic.zip) |
 | 通用版本(python2，3兼容) | [下载驱动软件包压缩包](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/new.zip) |
+
+
+## 常见问题以及回答
+[《IMU 常见问题》](./Q&A.md)这里面收录了一下常见的问题，以及解答或者处理方式。有问题的用户可简单浏览一遍
 
 
 ## 在Linux环境下使用IMU （无需安装ROS）
