@@ -16,8 +16,13 @@ rostopic：
 
 ## HandsFree ROS IMU用户手册
 
-handsfree_ros_imu　支持 ROS、Linux、Windows 开发环境，相关开发请查看用户手册：
-[HandsFree ROS IMU用户手册](./tutorials/doc.md)
+handsfree_ros_imu　支持 ROS、Linux、Windows 开发环境，相关开发请查看用户手册：[《HandsFree ROS IMU用户手册》](./tutorials/doc.md)
+
+IMU 的一些常见问题请参考：[《IMU 常见问题》](https://gitee.com/HANDS-FREE/handsfree_ros_imu/blob/master/tutorials/Q&A.md)
+
+IMU 通过串口助手快速检测请参考：[《使用串口助手快速判断 IMU 模块数据输出》](https://gitee.com/HANDS-FREE/handsfree_ros_imu/blob/master/tutorials/raw_serial_data.md)
+
+
 
 ## 展示及详细介绍
 ![](./tutorials/img/ppt/2.jpg)    
