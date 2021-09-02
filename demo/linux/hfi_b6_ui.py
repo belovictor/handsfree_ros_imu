@@ -113,6 +113,8 @@ def loopData(hf_imu):
         except Exception as e:
             print("exception:" + str(e))
             print("imu 失去连接，接触不良，或断线")
+            showText('传入showtext数据后，会立即退出窗口')
+            window.quit()
             exit(0)
         else:
             if buff_count > 0:
