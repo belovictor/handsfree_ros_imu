@@ -117,9 +117,11 @@ def handleSerialData(raw_data):
         imu_msg.angular_velocity.y = angularVelocity[1]
         imu_msg.angular_velocity.z = angularVelocity[2]
 
-        imu_msg.linear_acceleration.x = acceleration[0] * -9.8
-        imu_msg.linear_acceleration.y = acceleration[1] * -9.8
-        imu_msg.linear_acceleration.z = acceleration[2] * -9.8
+        acc_k = math.sqrt(acceleration[0] ** 2 + acceleration[1] ** 2 + acceleration[2] ** 2)
+
+        imu_msg.linear_acceleration.x = acceleration[0] * -9.8 / acc_k
+        imu_msg.linear_acceleration.y = acceleration[1] * -9.8 / acc_k
+        imu_msg.linear_acceleration.z = acceleration[2] * -9.8 / acc_k
 
         mag_msg.magnetic_field.x = magnetometer[0]
         mag_msg.magnetic_field.y = magnetometer[1]
