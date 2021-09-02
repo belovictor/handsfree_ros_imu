@@ -106,7 +106,7 @@ def handleSerialData(raw_data):
         mag_msg.header.frame_id = "base_link"
 
         angle_radian = [angle_degree[i] * math.pi / 180 for i in range(3)]
-        qua = quaternion_from_euler(angle_radian[0], angle_radian[1], angle_radian[2])
+        qua = quaternion_from_euler(angle_radian[0], -angle_radian[1], -angle_radian[2])
 
         imu_msg.orientation.x = qua[0]
         imu_msg.orientation.y = qua[1]
