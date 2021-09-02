@@ -2,12 +2,9 @@
 # -*- coding:utf-8 -*-
 import serial
 import struct
-import rospy
 import math
 import platform
 import serial.tools.list_ports
-from sensor_msgs.msg import Imu
-from tf.transformations import quaternion_from_euler
 
 
 # 查找 ttyUSB* 设备
@@ -65,6 +62,12 @@ def handleSerialData(raw_data):
             else:
                 print('0x53 校验失败')
             pub_flag[2] = False
+        elif buff[1] == 0x54 and pub_flag[3]:
+            if checkSum(data_buff[0:10], data_buff[10]):
+                magnetometer = hex_to_short(data_buff[2:10])
+            else:
+                print('0x54 校验失败')
+            pub_flag[3] = False
 
         else:
             print("该数据处理类没有提供该 " + str(buff[2]) + " 的解析")
@@ -74,32 +77,38 @@ def handleSerialData(raw_data):
 
         buff = {}
         key = 0
-        if pub_flag[0] == True or pub_flag[1] == True or pub_flag[2] == True:
+        if pub_flag[0] == True or pub_flag[1] == True or pub_flag[2] == True or pub_flag[3] == True:
             return
-        pub_flag[0] = pub_flag[1] = pub_flag[2] = True
-        stamp = rospy.get_rostime()
+        pub_flag[0] = pub_flag[1] = pub_flag[2] = pub_flag[3] = True
 
-        imu_msg.header.stamp = stamp
-        imu_msg.header.frame_id = "base_link"
+        print(
+'''
+加速度(m/s²)：
+    x轴：%.2f
+    y轴：%.2f
+    z轴：%.2f
 
+角速度(rad/s)：
+    x轴：%.2f
+    y轴：%.2f
+    z轴：%.2f
 
-        angle_radian = [angle_degree[i] * math.pi / 180 for i in range(3)]
-        qua = quaternion_from_euler(angle_radian[0], angle_radian[1], angle_radian[2])
+欧拉角(°)：
+    x轴：%.2f
+    y轴：%.2f
+    z轴：%.2f
 
-        imu_msg.orientation.x = qua[0]
-        imu_msg.orientation.y = qua[1]
-        imu_msg.orientation.z = qua[2]
-        imu_msg.orientation.w = qua[3]
+磁场：
+    x轴：%.2f
+    y轴：%.2f
+    z轴：%.2f
 
-        imu_msg.angular_velocity.x = angularVelocity[0]
-        imu_msg.angular_velocity.y = angularVelocity[1]
-        imu_msg.angular_velocity.z = angularVelocity[2]
+''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
+       angularVelocity[0], angularVelocity[1], angularVelocity[2],
+       angle_degree[0], angle_degree[1], angle_degree[2],
+       magnetometer[0], magnetometer[1], magnetometer[2]
+      ))
 
-        imu_msg.linear_acceleration.x = acceleration[0]
-        imu_msg.linear_acceleration.y = acceleration[1]
-        imu_msg.linear_acceleration.z = acceleration[2]
-
-        imu_pub.publish(imu_msg)
 
 
 key = 0
@@ -109,32 +118,31 @@ angularVelocity = [0, 0, 0]
 acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
-pub_flag = [True, True, True]
+pub_flag = [True, True, True, True]
 
 
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
 
     find_ttyUSB()
-    rospy.init_node("imu")
-    port = rospy.get_param("~port", "/dev/ttyUSB0")
-    baudrate = rospy.get_param("~baudrate", 921600)
-    imu_msg = Imu()
+
+    port = "/dev/ttyUSB0"
+    baudrate = 921600
+
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            rospy.loginfo("\033[32m串口打开成功...\033[0m")
+            print("\033[32m串口打开成功...\033[0m")
         else:
             hf_imu.open()
-            rospy.loginfo("\033[32m打开串口成功...\033[0m")
+            print("\033[32m打开串口成功...\033[0m")
     except Exception as e:
         print(e)
-        rospy.loginfo("\033[31m串口打开失败\033[0m")
+        print("\033[31m串口打开失败\033[0m")
         exit(0)
     else:
-        imu_pub = rospy.Publisher("handsfree/imu", Imu, queue_size=10)
 
-        while not rospy.is_shutdown():
+        while True:
             try:
                 buff_count = hf_imu.inWaiting()
             except Exception as e:
@@ -146,5 +154,4 @@ if __name__ == "__main__":
                     buff_data = hf_imu.read(buff_count)
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
-
 

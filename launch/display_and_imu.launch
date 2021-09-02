@@ -7,6 +7,7 @@
 
     <!-- imu 对应 python 文件 -->
     <node pkg="handsfree_ros_imu" type="hfi_$(arg imu_type)_ros.py" name="imu" output="screen">
+        <param name="port"    type = "str"    value="/dev/ttyUSB0"/>
     </node>
 
     <!-- 打开 3d 模型 -->
