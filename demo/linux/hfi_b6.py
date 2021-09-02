@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 import serial
 import struct
-import math
 import platform
 import serial.tools.list_ports
 

@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 import serial
 import struct
-import math
 import platform
 import serial.tools.list_ports
 
@@ -93,9 +92,8 @@ def handleSerialData(raw_data):
         if pub_flag[0] == True or pub_flag[1] == True:
             return
         pub_flag[0] = pub_flag[1] = True
-            
-        print(
-'''
+
+        print('''
 加速度(m/s²)：
     x轴：%.2f
     y轴：%.2f
@@ -115,7 +113,6 @@ def handleSerialData(raw_data):
     x轴：%.2f
     y轴：%.2f
     z轴：%.2f
-
 ''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
        angle_degree[0], angle_degree[1], angle_degree[2],
@@ -137,8 +134,8 @@ pub_flag = [True, True]
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
 
+    
     find_ttyUSB()
-
     port = "/dev/ttyUSB0"
     baudrate = 921600
 
@@ -154,17 +151,5 @@ if __name__ == "__main__":
         print("\033[31m串口打开失败\033[0m")
         exit(0)
     else:
-
-        while True:
-            try:
-                buff_count = hf_imu.inWaiting()
-            except Exception as e:
-                print("exception:" + str(e))
-                print("imu 失去连接，接触不良，或断线")
-                exit(0)
-            else:
-                if buff_count > 0:
-                    buff_data = hf_imu.read(buff_count)
-                    for i in range(0, buff_count):
-                        handleSerialData(buff_data[i])
-
+        threadLoopData(hf_imu)
+        startUI()
