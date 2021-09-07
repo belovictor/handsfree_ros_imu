@@ -146,5 +146,3 @@ if __name__ == "__main__":
                     buff_data = hf_imu.read(buff_count)
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
-
-

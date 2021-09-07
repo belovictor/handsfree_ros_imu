@@ -49,7 +49,13 @@ def hex_to_ieee(raw_data):
 
 # 处理串口数据
 def handleSerialData(raw_data):
-    global buff, key, angle_degree, magnetometer, acceleration, angularVelocity, pub_flag
+    global buff, key, angle_degree, magnetometer, acceleration, angularVelocity, pub_flag, data_right_count
+
+    if data_right_count > 200000:
+        print("该设备传输数据错误，退出")
+        exit(0)
+
+
     if python_version == '2':
         buff[key] = ord(raw_data)
     if python_version == '3':
@@ -57,6 +63,7 @@ def handleSerialData(raw_data):
 
     key += 1
     if buff[0] != 0xaa:
+        data_right_count += 1
         key = 0
         return
     if key < 3:
@@ -68,6 +75,7 @@ def handleSerialData(raw_data):
         return
 
     else:
+        data_right_count = 0
         data_buff = list(buff.values())  # 获取字典所以 value
 
         if buff[2] == 0x2c and pub_flag[0]:
@@ -116,12 +124,16 @@ def handleSerialData(raw_data):
         imu_msg.angular_velocity.x = angularVelocity[0]
         imu_msg.angular_velocity.y = angularVelocity[1]
         imu_msg.angular_velocity.z = angularVelocity[2]
-
+        
         acc_k = math.sqrt(acceleration[0] ** 2 + acceleration[1] ** 2 + acceleration[2] ** 2)
-
-        imu_msg.linear_acceleration.x = acceleration[0] * -9.8 / acc_k
-        imu_msg.linear_acceleration.y = acceleration[1] * -9.8 / acc_k
-        imu_msg.linear_acceleration.z = acceleration[2] * -9.8 / acc_k
+        if gra_normalization:
+            imu_msg.linear_acceleration.x = acceleration[0] * -9.8 / acc_k
+            imu_msg.linear_acceleration.y = acceleration[1] * -9.8 / acc_k
+            imu_msg.linear_acceleration.z = acceleration[2] * -9.8 / acc_k
+        else:
+            imu_msg.linear_acceleration.x = acceleration[0] * -9.8
+            imu_msg.linear_acceleration.y = acceleration[1] * -9.8
+            imu_msg.linear_acceleration.z = acceleration[2] * -9.8
 
         mag_msg.magnetic_field.x = magnetometer[0]
         mag_msg.magnetic_field.y = magnetometer[1]
@@ -139,6 +151,7 @@ acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
 pub_flag = [True, True]
+data_right_count = 0
 
 
 if __name__ == "__main__":
@@ -148,6 +161,7 @@ if __name__ == "__main__":
     rospy.init_node("imu")
     port = rospy.get_param("~port", "/dev/ttyUSB0")
     baudrate = rospy.get_param("~baudrate", 921600)
+    gra_normalization = rospy.get_param("~gra_normalization", True)
     imu_msg = Imu()
     mag_msg = MagneticField()
     try:
@@ -177,4 +191,3 @@ if __name__ == "__main__":
                     buff_data = hf_imu.read(buff_count)
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
-

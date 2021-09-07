@@ -151,5 +151,16 @@ if __name__ == "__main__":
         print("\033[31m串口打开失败\033[0m")
         exit(0)
     else:
-        threadLoopData(hf_imu)
-        startUI()
+        while True:
+            try:
+                buff_count = hf_imu.inWaiting()
+            except Exception as e:
+                print("exception:" + str(e))
+                print("imu 失去连接，接触不良，或断线")
+                exit(0)
+            else:
+                if buff_count > 0:
+                    buff_data = hf_imu.read(buff_count)
+                    for i in range(0, buff_count):
+                        handleSerialData(buff_data[i])
+
