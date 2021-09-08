@@ -4,13 +4,13 @@ import serial
 import struct
 import platform
 import serial.tools.list_ports
-
-
+import time
+import threading
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
     print("imu default serial port is COM3")
     posts = [port.device for port in serial.tools.list_ports.comports() if 'COM' in port.device]
-    print("current computer connect {} ，have {} : {}".format('COM', len(posts), posts))
+    print("current computer connect {} ,have {} : {}".format('COM', len(posts), posts))
 
 
 # 校验
@@ -81,25 +81,25 @@ def handleSerialData(raw_data):
         pub_flag[0] = pub_flag[1] = pub_flag[2] = pub_flag[3] = True
 
         text = '''
-acceleration(m/s²)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+acceleration(m/s²):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
-angular velocity(rad/s)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+angular velocity(rad/s):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
-Euler angle(°)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+Euler angle(°):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
-magnetic field：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+magnetic field:
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
 ''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
@@ -121,10 +121,11 @@ def showText(text):
 def loopData(hf_imu):
     while True:
         try:
+            time.sleep(0.03)
             buff_count = hf_imu.inWaiting()
         except Exception as e:
             print("exception:" + str(e))
-            print("imu 失去连接，接触不良，或断线")
+            print("imu lost connection,poor contact or broken wire")
             exit(0)
         else:
             if buff_count > 0:
@@ -134,10 +135,9 @@ def loopData(hf_imu):
 
 
 def threadLoopData(imu_ser):
-    import threading
     # 开启数据解析线程
     t = threading.Thread(target=loopData, args=[imu_ser,])
-    # 将当前线程设为子线程t的守护线程，这样一来，当前线程结束时会强制子线程结束
+    # 将当前线程设为子线程t的守护线程,这样一来,当前线程结束时会强制子线程结束
     t.setDaemon(True)
     t.start()
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            print("serial open fail...")
+            print("serial open success...")
         else:
             hf_imu.open()
             print("serial open success...")

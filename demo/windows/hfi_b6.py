@@ -11,7 +11,7 @@ import serial.tools.list_ports
 def find_ttyUSB():
     print("imu default serial port is COM3")
     posts = [port.device for port in serial.tools.list_ports.comports() if 'COM' in port.device]
-    print("current computer connect {} ，have {} : {}".format('COM', len(posts), posts))
+    print("current computer connect {} ,have {} : {}".format('COM', len(posts), posts))
 
 
 # 校验
@@ -77,20 +77,20 @@ def handleSerialData(raw_data):
 
         print(
 '''
-acceleration(m/s²)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+acceleration(m/s²):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
-angular velocity(rad/s)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+angular velocity(rad/s):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
-Euler angle(°)：
-    x-axis：%.2f
-    y-axis：%.2f
-    z-axis：%.2f
+Euler angle(°):
+    x-axis:%.2f
+    y-axis:%.2f
+    z-axis:%.2f
 
 ''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            print("serial open fail...")
+            print("serial open success...")
         else:
             hf_imu.open()
             print("serial open success...")
@@ -135,7 +135,7 @@ if __name__ == "__main__":
                 buff_count = hf_imu.inWaiting()
             except Exception as e:
                 print("Exception:" + str(e))
-                print("imu lost connection，poor contact or broken wire")
+                print("imu lost connection,poor contact or broken wire")
                 exit(0)
             else:
                 if buff_count > 0:
