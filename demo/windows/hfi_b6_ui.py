@@ -74,8 +74,7 @@ def handleSerialData(raw_data):
             return
         pub_flag[0] = pub_flag[1] = pub_flag[2] = True
 
-        text = '''
-acceleration(m/s²):
+        text = '''acceleration(m/s²):
     x-axis:%.2f
     y-axis:%.2f
     z-axis:%.2f
@@ -109,7 +108,7 @@ def showText(text):
 def loopData(hf_imu):
     while True:
         try:
-            time.sleep(0.03)
+            time.sleep(0.035)
             buff_count = hf_imu.inWaiting()
         except Exception as e:
             print("exception:" + str(e))

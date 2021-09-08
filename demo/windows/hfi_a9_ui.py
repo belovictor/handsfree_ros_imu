@@ -94,8 +94,7 @@ def handleSerialData(raw_data):
             return
         pub_flag[0] = pub_flag[1] = True
 
-        text = '''
-acceleration(m/s²):
+        text = '''acceleration(m/s²):
     x-axis:%.2f
     y-axis:%.2f
     z-axis:%.2f

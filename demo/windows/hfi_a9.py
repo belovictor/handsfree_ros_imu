@@ -96,7 +96,7 @@ def handleSerialData(raw_data):
 
         print(
 '''
-acceleration(m/s²):
+acceleration(m/s^2):
     x-axis:%.2f
     y-axis:%.2f
     z-axis:%.2f
@@ -106,7 +106,7 @@ angular velocity(rad/s):
     y-axis:%.2f
     z-axis:%.2f
 
-Euler angle(°):
+Euler angle(deg):
     x-axis:%.2f
     y-axis:%.2f
     z-axis:%.2f
