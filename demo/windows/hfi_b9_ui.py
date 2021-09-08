@@ -8,9 +8,9 @@ import serial.tools.list_ports
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('imu 默认串口为 COM3, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
-    posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
-    print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
+    print("imu default serial port is COM3")
+    posts = [port.device for port in serial.tools.list_ports.comports() if 'COM' in port.device]
+    print("current computer connect {} ，have {} : {}".format('COM', len(posts), posts))
 
 
 # 校验
@@ -44,7 +44,7 @@ def handleSerialData(raw_data):
             if checkSum(data_buff[0:10], data_buff[10]):
                 acceleration = [hex_to_short(data_buff[2:10])[i] / 32768.0 * 16 * 9.8 for i in range(0, 3)]
             else:
-                print('0x51 校验失败')
+                print("0x51 check fail")
             pub_flag[0] = False
 
         elif buff[1] == 0x52 and pub_flag[1]:
@@ -52,25 +52,25 @@ def handleSerialData(raw_data):
                 angularVelocity = [hex_to_short(data_buff[2:10])[i] / 32768.0 * 2000 for i in range(0, 3)]
 
             else:
-                print('0x52 校验失败')
+                print("0x52 check fail")
             pub_flag[1] = False
 
         elif buff[1] == 0x53 and pub_flag[2]:
             if checkSum(data_buff[0:10], data_buff[10]):
                 angle_degree = [hex_to_short(data_buff[2:10])[i] / 32768.0 * 180 for i in range(0, 3)]
             else:
-                print('0x53 校验失败')
+                print("0x53 check fail")
             pub_flag[2] = False
         elif buff[1] == 0x54 and pub_flag[3]:
             if checkSum(data_buff[0:10], data_buff[10]):
                 magnetometer = hex_to_short(data_buff[2:10])
             else:
-                print('0x54 校验失败')
+                print("0x54 check fail")
             pub_flag[3] = False
 
         else:
-            print("该数据处理类没有提供该 " + str(buff[2]) + " 的解析")
-            print("或数据错误")
+            print("The data processing class does not provide the resolution of the" + str(buff[2]))
+            print("Or data error")
             buff = {}
             key = 0
 
@@ -81,25 +81,26 @@ def handleSerialData(raw_data):
         pub_flag[0] = pub_flag[1] = pub_flag[2] = pub_flag[3] = True
 
         text = '''
-加速度(m/s²)：
-    x轴：%.2f
-    y轴：%.2f
-    z轴：%.2f
+acceleration(m/s²)：
+    x-axis：%.2f
+    y-axis：%.2f
+    z-axis：%.2f
 
-角速度(rad/s)：
-    x轴：%.2f
-    y轴：%.2f
-    z轴：%.2f
+angular velocity(rad/s)：
+    x-axis：%.2f
+    y-axis：%.2f
+    z-axis：%.2f
 
-欧拉角(°)：
-    x轴：%.2f
-    y轴：%.2f
-    z轴：%.2f
+Euler angle(°)：
+    x-axis：%.2f
+    y-axis：%.2f
+    z-axis：%.2f
 
-磁场：
-    x轴：%.2f
-    y轴：%.2f
-    z轴：%.2f
+magnetic field：
+    x-axis：%.2f
+    y-axis：%.2f
+    z-axis：%.2f
+
 ''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
        angle_degree[0], angle_degree[1], angle_degree[2],
@@ -177,13 +178,13 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            print("\033[32m串口打开成功...\033[0m")
+            print("serial open fail...")
         else:
             hf_imu.open()
-            print("\033[32m打开串口成功...\033[0m")
+            print("serial open success...")
     except Exception as e:
-        print(e)
-        print("\033[31m串口打开失败\033[0m")
+        print("Exception:"+str(e))
+        print("serial open fail")
         exit(0)
     else:
         threadLoopData(hf_imu)
