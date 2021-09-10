@@ -70,7 +70,7 @@ def handleSerialData(raw_data):
             pub_flag[3] = False
 
         else:
-            print("The data processing class does not provide the resolution of the" + str(buff[2]))
+            print("The data processing class does not provide the resolution of the" + str(buff[1]))
             print("Or data error")
             buff = {}
             key = 0

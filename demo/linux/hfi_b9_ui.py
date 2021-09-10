@@ -69,7 +69,7 @@ def handleSerialData(raw_data):
             pub_flag[3] = False
 
         else:
-            print("该数据处理类没有提供该 " + str(buff[2]) + " 的解析")
+            print("该数据处理类没有提供该 " + str(buff[1]) + " 的解析")
             print("或数据错误")
             buff = {}
             key = 0

@@ -4,7 +4,7 @@ import serial
 import struct
 import platform
 import serial.tools.list_ports
-
+import math
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
@@ -63,7 +63,7 @@ def handleSerialData(raw_data):
             pub_flag[2] = False
 
         else:
-            print("该数据处理类没有提供该 " + str(buff[2]) + " 的解析")
+            print("该数据处理类没有提供该 " + str(buff[1]) + " 的解析")
             print("或数据错误")
             buff = {}
             key = 0

@@ -4,6 +4,7 @@ import serial
 import struct
 import platform
 import serial.tools.list_ports
+import math
 
 
 # 查找 ttyUSB* 设备
@@ -92,6 +93,7 @@ def handleSerialData(raw_data):
         if pub_flag[0] == True or pub_flag[1] == True:
             return
         pub_flag[0] = pub_flag[1] = True
+        acc_k = math.sqrt(acceleration[0] ** 2 + acceleration[1] ** 2 + acceleration[2] ** 2)
 
         print('''
 加速度(m/s²)：
@@ -113,7 +115,7 @@ def handleSerialData(raw_data):
     x轴：%.2f
     y轴：%.2f
     z轴：%.2f
-''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
+''' % (acceleration[0] * -9.8 / acc_k, acceleration[1] * -9.8 / acc_k, acceleration[2] * -9.8 / acc_k,
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
        angle_degree[0], angle_degree[1], angle_degree[2],
        magnetometer[0], magnetometer[1], magnetometer[2]
