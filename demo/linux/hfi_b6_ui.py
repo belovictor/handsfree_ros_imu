@@ -4,6 +4,7 @@ import serial
 import struct
 import platform
 import serial.tools.list_ports
+import math
 
 
 # 查找 ttyUSB* 设备
@@ -90,7 +91,7 @@ def handleSerialData(raw_data):
     y轴：%.2f
     z轴：%.2f
 
-''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
+''' % (acceleration[0], acceleration[1], acceleration[2],
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
        angle_degree[0], angle_degree[1], angle_degree[2]
       )

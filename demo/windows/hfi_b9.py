@@ -103,7 +103,7 @@ magnetic field:
     y-axis:%.2f
     z-axis:%.2f
 
-''' % (acceleration[0] * -9.8, acceleration[1] * -9.8, acceleration[2] * -9.8,
+''' % (acceleration[0], acceleration[1], acceleration[2],
        angularVelocity[0], angularVelocity[1], angularVelocity[2],
        angle_degree[0], angle_degree[1], angle_degree[2],
        magnetometer[0], magnetometer[1], magnetometer[2]
