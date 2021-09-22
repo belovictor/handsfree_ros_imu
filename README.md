@@ -14,7 +14,7 @@
 
 [《里程计和 IMU 融合》](./tutorials/imu_user_manual/04_高级教程/01_里程计和IMU融合/doc.md)：以 A9 为例的里程计和 IMU 融合
 
-[《SLAM 和 IMU 融合》](./tutorials/imu_user_manual/04_高级教程/02_ SLAM和IMU融合/doc.md)：以 A9 为例的 SLAM 和 IMU 融合
+[《SLAM 和 IMU 融合》](./tutorials/imu_user_manual/04_高级教程/02_SLAM和IMU融合/doc.md)：以 A9 为例的 SLAM 和 IMU 融合
 
 [《问题和答疑》](./tutorials/imu_user_manual/05_问题和答疑/doc.md)：内含问题总结，如何提问，知识库和参考链接
 
