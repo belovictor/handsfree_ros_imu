@@ -1,6 +1,6 @@
-![](./tutorials/imu_user_manual/01_综合介绍/img/1.jpg)
-
 # HandsFree ROS IMU用户手册
+
+![](./tutorials/imu_user_manual/01_综合介绍/img/1.jpg)
 
 handsfree_ros_imu 是用于学习使用 IMU 的 ROS 功能包，适用于 handsfree 推出的 3 款 ROS IMU。同时也含有纯 python 编写的输出数据显示, 支持 Linux、Windows 等相关的脚本文件。
 
