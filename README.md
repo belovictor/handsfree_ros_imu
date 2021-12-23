@@ -1,6 +1,6 @@
 ![](./tutorials/imu_user_manual/01_综合介绍/img/1.jpg)
 
-# 综合介绍
+# HandsFree ROS IMU用户手册
 
 handsfree_ros_imu 是用于学习使用 IMU 的 ROS 功能包，适用于 handsfree 推出的 3 款 ROS IMU。同时也含有纯 python 编写的输出数据显示, 支持 Linux、Windows 等相关的脚本文件。
 
@@ -12,7 +12,7 @@ rostopic：
 
 ![视频](https://handsfree-mv.oss-cn-shenzhen.aliyuncs.com/handsfree_robot/imu/video/imu_show.mp4)
 
-## 快速导航
+## 教程文档
 
 [《选型介绍》](./tutorials/imu_user_manual/02_选型介绍/doc.md)：内含 IMU 基础知识，常见选型问题，购买需知等。
 
@@ -36,7 +36,7 @@ rostopic：
 
 ---
 
-## 产品功能
+## 产品介绍
 
 IMU 内有 加速度计，陀螺仪，磁力计这些传感器，通过固定 imu 到物体上后，可以获取物体在运动过程中的一些信息，如物体的三轴加速度信息，三轴角速度信息，三轴角度信息，三轴磁场信息。通过这些信息，可以得知物体运动过程中的状态。
 
@@ -44,7 +44,7 @@ IMU 设计的应用领域广泛，在军航空航天、航海、军事、医疗�
 
 ![应用领域](./tutorials/imu_user_manual/01_综合介绍/img/24.jpg)
 
-## 产品型号
+### 型号
 
 产品型号共 3 种：
 
@@ -53,7 +53,7 @@ IMU 设计的应用领域广泛，在军航空航天、航海、军事、医疗�
 * B6：可获取三轴加速度信息，三轴角速度信息，三轴角度信息。
 
 
-## 介绍
+### 介绍
 
 ![](./tutorials/imu_user_manual/01_综合介绍/img/2.jpg)
 
