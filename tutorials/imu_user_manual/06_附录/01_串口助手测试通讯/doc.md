@@ -38,7 +38,7 @@
 
 以 win 7 为例，波特率 921600
 
-1. 运行包中自带 sscom5.13.1.exe（你也可以使用自己的串口助手工具）。
+1. 运行包中自带 [sscom5.13.1.exe](https://gitee.com/HANDS-FREE/handsfree_ros_imu/blob/9124c6a25d3e5df55c42c8d9a853ec57f5ad45ab/tutorials/%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/sscom5.13.1.exe) （你也可以使用自己的串口助手工具）。
 
 2. 进行一些设置，如图中所示。
 

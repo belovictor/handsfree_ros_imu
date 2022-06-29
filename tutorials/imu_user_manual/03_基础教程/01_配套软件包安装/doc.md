@@ -24,7 +24,7 @@
 
 4. 下载驱动软件压缩包，并解压到桌面。
 
-   [【点击跳转至下载页面】](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/new.zip)
+   [【点击跳转至下载页面】](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/master.zip)
 
 
 
@@ -34,7 +34,7 @@
 
 1. 下载驱动软件压缩包，然后鼠标右键，选择提取到此处。
 
-   [【点击跳转至下载页面】](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/new.zip)
+   [【点击跳转至下载页面】](https://gitee.com/HANDS-FREE/handsfree_ros_imu/repository/archive/master.zip)
 
 
 
