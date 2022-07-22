@@ -102,8 +102,8 @@ def handleSerialData(raw_data):
 
         buff = {}
         key = 0
-        if pub_flag[0] == True or pub_flag[1] == True:
-            return
+        #if pub_flag[0] == True or pub_flag[1] == True:
+        #    return
         pub_flag[0] = pub_flag[1] = True
         stamp = rospy.get_rostime()
 
@@ -126,6 +126,9 @@ def handleSerialData(raw_data):
         imu_msg.angular_velocity.z = angularVelocity[2]
         
         acc_k = math.sqrt(acceleration[0] ** 2 + acceleration[1] ** 2 + acceleration[2] ** 2)
+        if acc_k == 0:
+           acc_k = 1
+           
         if gra_normalization:
             imu_msg.linear_acceleration.x = acceleration[0] * -9.8 / acc_k
             imu_msg.linear_acceleration.y = acceleration[1] * -9.8 / acc_k
