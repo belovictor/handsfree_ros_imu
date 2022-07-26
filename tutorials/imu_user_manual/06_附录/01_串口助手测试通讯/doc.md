@@ -14,7 +14,10 @@
 
    ![serial-set](./img/ubuntu1.png)
 
+   如果您在点击`open device` 后，cutecom提示`no device has been specified` 则您要通过`sudo cutecom`来启动串口助手。
+
 3. 然后我们点击`open device` ，此时下面的空白面板会有 imu 的数据打印。
+
 
 4. 我们可以等待 imu 的数据打印一会儿，然后点击 `close device`来查看。
 

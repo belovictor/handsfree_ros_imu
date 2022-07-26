@@ -20,7 +20,12 @@
 
    然后通过 pip install pyserial 来安装串口模块
 
-3. 下载并安装 cp2102 串口驱动，下载地址: [cp2102驱动](https://handsfree-mv.oss-cn-shenzhen.aliyuncs.com/handsfree_robot/tools/windows%E4%B8%B2%E5%8F%A3%E9%A9%B1%E5%8A%A8/CP2102.zip)（一般情况下，插上USB后电脑后自动下载，可以先通过步骤 5 判断一下，若有则跳过这一步骤）
+3. 下载并安装 cp2102 串口驱动，下载地址: [cp2102驱动](https://handsfree-mv.oss-cn-shenzhen.aliyuncs.com/handsfree_robot/tools/windows%E4%B8%B2%E5%8F%A3%E9%A9%B1%E5%8A%A8/CP2102.zip)。  
+一般情况下，设备连接到电脑后，电脑将自动下载驱动。您可以点击 此电脑->属性->设备管理器 查看驱动是否有正常安装。
+如果您的端口设备如下图所示，则安装成功：  
+![](./img/success.png)
+  如果您的端口设备出现黄色感叹号等异常情况，则安装失败，需要自行手动安装驱动：
+![](./img/failed.png)
 
 4. 下载驱动软件压缩包，并解压到桌面。
 
@@ -68,7 +73,7 @@
    sudo apt-get install git -y
    mkdir -p ~/handsfree/handsfree_ros_ws/src/
    cd ~/handsfree/handsfree_ros_ws/src/
-   git clone -b new https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
+   git clone https://gitee.com/HANDS-FREE/handsfree_ros_imu.git
    cd ~/handsfree/handsfree_ros_ws/
    catkin_make
    cd ~/handsfree/handsfree_ros_ws/src/handsfree_ros_imu/scripts/

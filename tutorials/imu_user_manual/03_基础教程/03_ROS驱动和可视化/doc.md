@@ -6,7 +6,7 @@
 
    ![](./img/ls_ttyusb.jpg)
 
-2. 进入脚本目录，修改对应的 launch 文件中的 /dev/ttyUSB0（脚本默认用的 /dev/ttyUSB0）为你电脑识别出来的数字
+2. 进入脚本目录，修改对应的 launch 文件（本例子中用的是`handsfree_ros_imu/launch/handsfree_imu.launch` 文件）中的 /dev/ttyUSB0（脚本默认用的 /dev/ttyUSB0）为你电脑识别出来的数字
 
    ![](./img/change_ttyusb.jpg)
 
