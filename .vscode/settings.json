@@ -1,0 +1,16 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/handsfree_arm_exp/xarm_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/darknet_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/handsfree_ros_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/handsfree_arm_exp/xarm_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/darknet_ros_ws/devel/lib/python2.7/dist-packages",
+        "/home/handsfree/handsfree/handsfree_ros_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ]
+}

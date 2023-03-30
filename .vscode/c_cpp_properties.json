@@ -1,0 +1,46 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/devel/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/xarm_ros_ws/devel/include/**",
+        "/home/handsfree/handsfree/darknet_ros_ws/devel/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_driver/astra_camera/include/**",
+        "/home/handsfree/handsfree/vins_mono_ws/src/VINS-Mono/camera_model/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/src/Universal_Robots_ROS_Driver/controller_stopper/include/**",
+        "/home/handsfree/handsfree/darknet_ros_ws/src/darknet_ros/darknet_ros/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_driver/fdilink_ahrs-demo/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/tools/find_object_2d/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_controller/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_hw/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/handsfree_mini_arm/handsfree_mini_arm_controller/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_speech/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/handsfree_v6_max_arm/handsfree_v6_max_arm_controller/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/handsfree_v6_plus_arm/handsfree_v6_plus_arm_controller/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_driver/hokuyo_node/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_driver/ldlidar_stl_ros/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/tools/moveit_simple_grasps/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree_arm/tools/roboticsgroup_gazebo_plugins/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/src/Universal_Robots_ROS_Driver/ur_calibration/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/src/universal_robot/ur_kinematics/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/ur_ros_ws/src/Universal_Robots_ROS_Driver/ur_robot_driver/include/**",
+        "/home/handsfree/handsfree/handsfree_ros_ws/src/handsfree/handsfree_driver/urg_node/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/xarm_ros_ws/src/xarm_ros/xarm_api/include/**",
+        "/home/handsfree/handsfree/handsfree_arm_exp/xarm_ros_ws/src/xarm_ros/xarm_controller/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

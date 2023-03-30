@@ -1,0 +1,29 @@
+ACTION=="add", SUBSYSTEM=="usb-serial", DRIVER=="ftdi_sio", ATTR{latency_timer}="1"
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobot"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree IMU USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotIMU"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree RTK USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotRTK"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Lift USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotLift"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Arm USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotArm"
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Left Arm USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotLeftArm"
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Right Arm USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotRightArm"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Gripper USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotGripper"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Head USB to UART Bridge Controller", MODE:="0777", SYMLINK+="HFRobotHead"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Lidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_front"
+KERNEL=="ttyUSB*", ATTRS{interface}=="HandsFree Second Lidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_back"
+KERNEL=="ttyUSB*", ATTRS{product}=="HandsFree Lidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_front"
+KERNEL=="ttyUSB*", ATTRS{product}=="HandsFree Second Lidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_back"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="SlamTec RPlidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_front"
+KERNEL=="ttyUSB*", ATTRS{interface}=="SlamTec Second RPlidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_back"
+
+KERNEL=="ttyUSB*", ATTRS{interface}=="EAI YDlidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_front"
+KERNEL=="ttyUSB*", ATTRS{interface}=="EAI Second YDlidar USB to UART Bridge Controller", MODE:="0777", SYMLINK+="lidar_back"
+
+
