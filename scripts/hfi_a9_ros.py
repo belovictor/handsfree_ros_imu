@@ -11,14 +11,14 @@ from sensor_msgs.msg import MagneticField
 from tf.transformations import quaternion_from_euler
 
 
-# 查找 ttyUSB* 设备
+# Find ttyUSB* devices
 def find_ttyUSB():
     print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
 
 
-# crc 校验
+# crc check
 def checkSum(list_data, check_data):
     data = bytearray(list_data)
     crc = 0xFFFF
@@ -33,7 +33,7 @@ def checkSum(list_data, check_data):
     return hex(((crc & 0xff) << 8) + (crc >> 8)) == hex(check_data[0] << 8 | check_data[1])
 
 
-# 16 进制转 ieee 浮点数
+# 16 Convert base to ieee floating point
 def hex_to_ieee(raw_data):
     ieee_data = []
     raw_data.reverse()
@@ -47,12 +47,12 @@ def hex_to_ieee(raw_data):
     return ieee_data
 
 
-# 处理串口数据
+# Process serial data
 def handleSerialData(raw_data):
     global buff, key, angle_degree, magnetometer, acceleration, angularVelocity, pub_flag, data_right_count
 
     if data_right_count > 200000:
-        print("该设备传输数据错误，退出")
+        print("The device transmits data error, exit")
         exit(0)
 
 
@@ -71,12 +71,12 @@ def handleSerialData(raw_data):
     if buff[1] != 0x55:
         key = 0
         return
-    if key < buff[2] + 5:  # 根据数据长度位的判断, 来获取对应长度数据
+    if key < buff[2] + 5:  # According to the judgment of the data length bit, to obtain the corresponding length data
         return
 
     else:
         data_right_count = 0
-        data_buff = list(buff.values())  # 获取字典所以 value
+        data_buff = list(buff.values())  # Get a dictionary so value
 
         if buff[2] == 0x2c and pub_flag[0]:
             if checkSum(data_buff[2:47], data_buff[47:49]):
@@ -85,18 +85,18 @@ def handleSerialData(raw_data):
                 acceleration = data[4:7]
                 magnetometer = data[7:10]
             else:
-                print('校验失败')
+                print('Validation failed')
             pub_flag[0] = False
         elif buff[2] == 0x14 and pub_flag[1]:
             if checkSum(data_buff[2:23], data_buff[23:25]):
                 data = hex_to_ieee(data_buff[7:23])
                 angle_degree = data[1:4]
             else:
-                print('校验失败')
+                print('Validation failed')
             pub_flag[1] = False
         else:
-            print("该数据处理类没有提供该 " + str(buff[2]) + " 的解析")
-            print("或数据错误")
+            print("The data processing class does not provide the " + str(buff[2]) + " Analysis of")
+            print("or data error")
             buff = {}
             key = 0
 
@@ -160,9 +160,9 @@ data_right_count = 0
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
 
-    find_ttyUSB()
     rospy.init_node("imu")
-    port = rospy.get_param("~port", "/dev/ttyUSB0")
+    rospy.loginfo("Starting handsfree IMU node")
+    port = rospy.get_param("~port", "/dev/imu")
     baudrate = rospy.get_param("~baudrate", 921600)
     gra_normalization = rospy.get_param("~gra_normalization", True)
     imu_msg = Imu()
@@ -170,13 +170,13 @@ if __name__ == "__main__":
     try:
         hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
         if hf_imu.isOpen():
-            rospy.loginfo("\033[32m串口打开成功...\033[0m")
+            rospy.loginfo("Serial port opened successfully")
         else:
             hf_imu.open()
-            rospy.loginfo("\033[32m打开串口成功...\033[0m")
+            rospy.loginfo("Serial port opened successfully")
     except Exception as e:
         print(e)
-        rospy.loginfo("\033[31m串口打开失败\033[0m")
+        rospy.loginfo("Failed to open serial port")
         exit(0)
     else:
         imu_pub = rospy.Publisher("handsfree/imu", Imu, queue_size=10)
@@ -187,10 +187,11 @@ if __name__ == "__main__":
                 buff_count = hf_imu.inWaiting()
             except Exception as e:
                 print("exception:" + str(e))
-                print("imu 失去连接，接触不良，或断线")
+                print("Lost IMU connection")
                 exit(0)
             else:
                 if buff_count > 0:
                     buff_data = hf_imu.read(buff_count)
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
+    rospy.loginfo("Shutting down handsfree IMU node")
