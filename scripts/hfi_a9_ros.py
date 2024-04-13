@@ -168,7 +168,7 @@ if __name__ == "__main__":
     imu_msg = Imu()
     mag_msg = MagneticField()
     try:
-        hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
+        hf_imu = serial.Serial(port=port, baudrate=baudrate, timeout=5.0)
         if hf_imu.isOpen():
             rospy.loginfo("Serial port opened successfully")
         else:
@@ -184,6 +184,7 @@ if __name__ == "__main__":
 
         while not rospy.is_shutdown():
             try:
+                byte = hf_imu.read(1)
                 buff_count = hf_imu.inWaiting()
             except Exception as e:
                 print("exception:" + str(e))
@@ -192,6 +193,7 @@ if __name__ == "__main__":
             else:
                 if buff_count > 0:
                     buff_data = hf_imu.read(buff_count)
+                    handleSerialData(byte[0])
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
     rospy.loginfo("Shutting down handsfree IMU node")
